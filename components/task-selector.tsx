@@ -1,0 +1,180 @@
+"use client";
+
+import { useState } from "react";
+import { Search, Check } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import type { TaskOption } from "@/types";
+import { TASK_OPTIONS } from "@/constants";
+import { cn } from "@/lib/utils";
+
+interface TaskSelectorProps {
+  selectedTask?: string;
+  onTaskSelect: (task: TaskOption | null) => void;
+  className?: string;
+}
+
+export function TaskSelector({
+  selectedTask,
+  onTaskSelect,
+  className,
+}: TaskSelectorProps) {
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredTasks = TASK_OPTIONS.filter(
+    (task) =>
+      task.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleTaskSelect = (task: TaskOption) => {
+    // If clicking on already selected task, unselect it
+    if (selectedTask === task.id) {
+      onTaskSelect(null);
+    } else {
+      onTaskSelect(task);
+    }
+    setOpen(false);
+    setSearchQuery("");
+  };
+
+  const selectedTaskLabel = selectedTask
+    ? TASK_OPTIONS.find((t) => t.id === selectedTask)?.label || "Select Task"
+    : "Select Task";
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={cn(
+            "justify-between bg-background/70 backdrop-blur-xl border-white/20 rounded-full shadow-md",
+            selectedTask && "ring-2 ring-primary ring-offset-2",
+            className
+          )}
+        >
+          <span className="text-sm">{selectedTaskLabel}</span>
+          <svg
+            viewBox="0 0 24 24"
+            className="w-4 h-4 text-muted-foreground ml-2"
+            aria-hidden="true"
+          >
+            <path fill="currentColor" d="M7 10l5 5 5-5z" />
+          </svg>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-96 p-0" align="center">
+        <div className="p-4">
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search tasks..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
+            {filteredTasks.map((task) => (
+              <Button
+                key={task.id}
+                variant="ghost"
+                onClick={() => handleTaskSelect(task)}
+                className={cn(
+                  "h-auto p-0 flex flex-col items-start text-left hover:bg-accent rounded-lg overflow-hidden",
+                  selectedTask === task.id && "ring-2 ring-primary bg-accent"
+                )}
+              >
+                <div className="relative w-full h-20 bg-muted flex items-center justify-center">
+                  {task.placeholderImage ? (
+                    <img
+                      src={task.placeholderImage}
+                      alt={task.label}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                      <span className="text-xs font-medium text-primary">
+                        {task.label.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                  {selectedTask === task.id && (
+                    <div className="absolute top-1 right-1 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                      <Check className="w-3 h-3 text-primary-foreground" />
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 w-full">
+                  <span className="font-medium text-sm block">
+                    {task.label}
+                  </span>
+                  {task.description && (
+                    <span className="text-xs text-muted-foreground mt-1 block">
+                      {task.description}
+                    </span>
+                  )}
+                </div>
+              </Button>
+            ))}
+          </div>
+          {filteredTasks.length === 0 && (
+            <div className="text-center text-sm text-muted-foreground py-4">
+              No tasks found
+            </div>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+export function TaskGrid({
+  tasks = TASK_OPTIONS,
+  onTaskSelect,
+  selectedTask,
+  columns = 2,
+}: {
+  tasks?: TaskOption[];
+  onTaskSelect: (task: TaskOption) => void;
+  selectedTask?: string;
+  columns?: number;
+}) {
+  return (
+    <div
+      className={cn("grid gap-2", {
+        "grid-cols-1": columns === 1,
+        "grid-cols-2": columns === 2,
+        "grid-cols-3": columns === 3,
+      })}
+    >
+      {tasks.map((task) => (
+        <Button
+          key={task.id}
+          variant="ghost"
+          onClick={() => onTaskSelect(task)}
+          className={cn(
+            "h-auto p-3 flex flex-col items-start text-left hover:bg-accent",
+            selectedTask === task.id && "bg-accent"
+          )}
+        >
+          <span className="font-medium text-sm">{task.label}</span>
+          {task.description && (
+            <span className="text-xs text-muted-foreground mt-1">
+              {task.description}
+            </span>
+          )}
+        </Button>
+      ))}
+    </div>
+  );
+}
