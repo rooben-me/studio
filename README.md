@@ -1,13 +1,8 @@
 # Studio - Ruban Assignment
 
-## Demo & Screenshots
-
-**Video Demo**
-`/public/demo.mp4`
-
-**Application Screenshots**
-`/public/screenshots/screenshot-1.png`
-`/public/screenshots/screenshot-2.png`
+## Screenshots
+<img width="1152" height="720" alt="vlcsnap-2025-09-01-13h09m20s843" src="https://github.com/user-attachments/assets/3e134f03-d27e-4c15-8e25-3a9dfbdf7a4c" />
+<img width="1152" height="720" alt="vlcsnap-2025-09-01-13h09m11s847" src="https://github.com/user-attachments/assets/a3f4b812-8ee4-425e-928d-f192c2ddafe9" />
 
 ## TODOs
 
