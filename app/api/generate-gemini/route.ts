@@ -43,8 +43,6 @@ export async function POST(req: NextRequest) {
       modalities: ["image", "text"],
     };
 
-    console.log("Making request to Gemini via OpenRouter");
-
     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
@@ -92,7 +90,6 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    console.log("Gemini response:", JSON.stringify(data, null, 2));
 
     let generatedImageDataUrl = null;
 
