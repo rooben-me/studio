@@ -8,24 +8,22 @@ After going through the requirements, I used a PRD created from Gemini to ideate
 
 Here are the two initial versions:
 
-**Image 1: v0 Prototype**
-`![v0 Prototype](./public/images/evidence/v0-prototype.webp)`
-
-**Image 2: Lovable Prototype**
-`![Lovable Prototype](./public/images/evidence/lovable-prototype.webp)`
+|                        v0 Prototype                        |                          Lovable Prototype                           |
+| :--------------------------------------------------------: | :------------------------------------------------------------------: |
+| ![v0 Prototype](/public/images/evidence/v0-prototype.webp) | ![Lovable Prototype](/public/images/evidence/lovable-prototype.webp) |
 
 ### Design Inspiration & Refinement
 
 I needed some inspiration for the design. I've always been a fan of minimalism and Apple's design philosophy and I have been following Playground AI for a long time, so I thought I could take inspiration from their UI.
 
 **Inspiration: Playground AI**
-`![Playground AI UI](./public/images/evidence/playground-ai-inspiration.webp)`
+![Playground AI UI](/public/images/evidence/playground-ai-inspiration.webp)
 
 Using this as a foundation, I used Figma to adjust some elements to create the look I wanted. This helped me organize my code and know where to take the design to complete the project.
 
-|                          Before (Original Playground)                           |            After (Modified for my understanding)             |
-| :-----------------------------------------------------------------------------: | :----------------------------------------------------------: |
-| `![Playground Before](./public/images/evidence/playground-ai-inspiration.webp)` | `![Figma After](./public/images/evidence/after-design.webp)` |
+|                         Before (Original Playground)                         |           After (Modified for my understanding)           |
+| :--------------------------------------------------------------------------: | :-------------------------------------------------------: |
+| ![Playground Before](/public/images/evidence/playground-ai-inspiration.webp) | ![Figma After](/public/images/evidence/after-design.webp) |
 
 ### Development & Asset Creation
 
@@ -38,4 +36,4 @@ I respected the instructions, and since it mentioned that 6-8 hours is the hard 
 
 And here is a little evidence. It's an image of my Gemini chat history which shows I first started to chat with it about 8 hours ago.
 
-`![Gemini Chat History](./public/images/evidence/gemini-history.webp)`
+![Gemini Chat History](/public/images/evidence/gemini-history.webp)
