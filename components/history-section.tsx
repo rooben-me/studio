@@ -26,7 +26,7 @@ export function HistorySection({
   if (history.length === 0) {
     return (
       <section className={cn("w-full", className)}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto p-6 border bg-gray-50 border-gray-100 rounded-2xl">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <History className="h-5 w-5 text-muted-foreground" />
@@ -49,7 +49,7 @@ export function HistorySection({
 
   return (
     <section className={cn("w-full", className)}>
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto p-6 border bg-gray-50 border-gray-100 rounded-2xl">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <History className="h-5 w-5 text-muted-foreground" />
@@ -112,38 +112,55 @@ function HistoryCard({
 
   return (
     <Card
-      className="group relative overflow-hidden transition-all hover:shadow-md"
+      className="group relative overflow-hidden transition-all hover:shadow-md p-0"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <CardContent className="p-0">
+        {/* Image Comparison */}
         <div className="relative aspect-square overflow-hidden">
-          <img
-            src={item.imageUrl}
-            alt={`Generated: ${item.prompt}`}
-            className="w-full h-full object-cover transition-transform group-hover:scale-105"
-          />
+          {item.originalImageUrl ? (
+            <div className="flex h-full">
+              {/* Original Image */}
+              <div className="w-1/2 relative overflow-hidden">
+                <img
+                  src={item.originalImageUrl}
+                  alt="Original"
+                  className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
+                />
+                <div className="absolute bottom-1 left-1">
+                  <span className="px-1.5 py-0.5 bg-background/90 backdrop-blur-sm rounded text-xs font-medium">
+                    Before
+                  </span>
+                </div>
+              </div>
 
-          {/* Overlay with restore button */}
-          <div
-            className={cn(
-              "absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity",
-              isHovered ? "opacity-100" : "opacity-0"
-            )}
-          >
-            <Button
-              onClick={onRestore}
-              className="bg-background/90 text-foreground hover:bg-background"
-            >
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Restore
-            </Button>
-          </div>
+              {/* Generated Image */}
+              <div className="w-1/2 relative overflow-hidden border-l border-border/20">
+                <img
+                  src={item.imageUrl}
+                  alt="Generated"
+                  className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
+                />
+                <div className="absolute bottom-1 right-1">
+                  <span className="px-1.5 py-0.5 bg-primary/90 backdrop-blur-sm rounded text-xs font-medium text-primary-foreground">
+                    After
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <img
+              src={item.imageUrl}
+              alt={`Generated: ${item.prompt}`}
+              className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
+            />
+          )}
 
-          {/* Style badge */}
+          {/* Task badge */}
           <div className="absolute top-2 left-2">
-            <span className="px-2 py-1 bg-background/80 backdrop-blur-sm rounded-full text-xs font-medium">
-              {item.task}
+            <span className="px-2 py-1 bg-background/90 backdrop-blur-sm rounded-full text-xs font-medium capitalize">
+              {item.task.replace("-", " ")}
             </span>
           </div>
         </div>
@@ -151,6 +168,17 @@ function HistoryCard({
         <div className="p-3">
           <p className="text-sm font-medium line-clamp-2 mb-1">{item.prompt}</p>
           <p className="text-xs text-muted-foreground">{formattedDate}</p>
+        </div>
+        <div className="p-3 pt-1">
+          <Button
+            onClick={onRestore}
+            size="sm"
+            variant="outline"
+            className="w-full"
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Restore This Result
+          </Button>
         </div>
       </CardContent>
     </Card>

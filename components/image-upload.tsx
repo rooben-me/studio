@@ -12,6 +12,7 @@ interface ImageUploadProps {
   onImageChange: (dataUrl: string | null) => void;
   disabled?: boolean;
   className?: string;
+  showLoadingState?: boolean;
 }
 
 export function ImageUpload({
@@ -19,6 +20,7 @@ export function ImageUpload({
   onImageChange,
   disabled = false,
   className,
+  showLoadingState = false,
 }: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -130,18 +132,30 @@ export function ImageUpload({
               alt="Uploaded image"
               className="max-w-full max-h-full object-contain"
             />
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={(e) => {
-                e.stopPropagation();
-                clearImage();
-              }}
-              disabled={disabled}
-              className="absolute top-2 right-2 h-8 w-8 rounded-full p-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            {showLoadingState && (
+              <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+                <div className="text-center space-y-3">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">Generating...</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            {!showLoadingState && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  clearImage();
+                }}
+                disabled={disabled}
+                className="absolute top-2 right-2 h-8 w-8 rounded-full p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
           </>
         ) : (
           <div className="flex flex-col items-center gap-2 text-center p-6">
@@ -149,18 +163,24 @@ export function ImageUpload({
               <ImageIcon className="h-8 w-8 text-muted-foreground" />
             </div>
             <div>
-              <p className="text-sm font-medium">
-                {isDragOver ? "Drop your image here" : "Upload an image"}
+              <p className="text-lg font-medium mb-2">
+                {isDragOver ? "Perfect, drop it here" : "Choose your image"}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mb-3">
                 {isDragOver
-                  ? "Release to upload"
-                  : "Drag and drop or click to select"}
+                  ? "Release to get started"
+                  : "Drag & drop or click to browse"}
               </p>
               {!isDragOver && (
-                <p className="text-xs text-muted-foreground">
-                  PNG, JPG up to 10MB
-                </p>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-full">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    PNG or JPG
+                  </span>
+                  <span className="w-1 h-1 bg-muted-foreground/40 rounded-full"></span>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    Up to 10MB
+                  </span>
+                </div>
               )}
             </div>
           </div>

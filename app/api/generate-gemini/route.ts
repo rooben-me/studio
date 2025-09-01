@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     }
 
     const requestPayload = {
-      model: "google/gemini-2.5-flash-image-preview",
+      model: "google/gemini-2.5-flash-image-preview:free",
       messages: [
         {
           role: "user",

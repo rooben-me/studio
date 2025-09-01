@@ -35,6 +35,7 @@ type StudioActions = {
 
 const initialState: StudioState = {
   imageDataUrl: null,
+  originalImageUrl: null,
   prompt: "",
   task: null,
   generationState: "idle",
@@ -50,11 +51,20 @@ export const useStudioStore = create<StudioState & StudioActions>()(
 
     // Image actions
     setImage: (dataUrl) => {
-      set({ imageDataUrl: dataUrl, error: null });
+      set({
+        imageDataUrl: dataUrl,
+        originalImageUrl: dataUrl,
+        error: null,
+      });
     },
 
     clearImage: () => {
-      set({ imageDataUrl: null, error: null });
+      set({
+        imageDataUrl: null,
+        originalImageUrl: null,
+        generationState: "idle",
+        error: null,
+      });
     },
 
     // Prompt actions
@@ -80,6 +90,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
     restoreFromHistory: (item) => {
       set({
         imageDataUrl: item.imageUrl,
+        originalImageUrl: item.originalImageUrl || null,
         prompt: item.prompt,
         task: item.task,
         generationState: "idle",
@@ -128,8 +139,11 @@ export const useStudioStore = create<StudioState & StudioActions>()(
           }
         );
 
-        // Save to history
-        saveHistoryItem(result);
+        const historyItem = {
+          ...result,
+          originalImageUrl: state.imageDataUrl,
+        };
+        saveHistoryItem(historyItem);
         const updatedHistory = loadHistory();
 
         // Update state with result
