@@ -80,7 +80,7 @@ export function TaskSelector({
           </svg>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[800px] p-0" align="center">
+      <PopoverContent className="w-[95vw] max-w-4xl p-0" align="center">
         <div className="p-4 w-full">
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -91,7 +91,7 @@ export function TaskSelector({
               className="pl-9"
             />
           </div>
-          <div className="p-0.5 grid grid-cols-2 md:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+          <div className="p-0.5 grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
             {filteredTasks.map((task) => (
               <Button
                 key={task.id}
@@ -130,7 +130,7 @@ export function TaskSelector({
                     {task.label}
                   </span>
                   {task.description && (
-                    <span className="text-xs text-muted-foreground mt-1 block">
+                    <span className="text-xs text-muted-foreground mt-1 block truncate">
                       {task.description}
                     </span>
                   )}
