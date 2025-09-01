@@ -112,7 +112,7 @@ function HistoryCard({
 
   return (
     <Card
-      className="group relative overflow-hidden transition-all hover:shadow-md"
+      className="group relative overflow-hidden transition-all hover:shadow-md p-0"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -121,24 +121,8 @@ function HistoryCard({
           <img
             src={item.imageUrl}
             alt={`Generated: ${item.prompt}`}
-            className="w-full h-full object-cover transition-transform group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
           />
-
-          {/* Overlay with restore button */}
-          <div
-            className={cn(
-              "absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity",
-              isHovered ? "opacity-100" : "opacity-0"
-            )}
-          >
-            <Button
-              onClick={onRestore}
-              className="bg-background/90 text-foreground hover:bg-background"
-            >
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Restore
-            </Button>
-          </div>
 
           {/* Style badge */}
           <div className="absolute top-2 left-2">
@@ -151,6 +135,12 @@ function HistoryCard({
         <div className="p-3">
           <p className="text-sm font-medium line-clamp-2 mb-1">{item.prompt}</p>
           <p className="text-xs text-muted-foreground">{formattedDate}</p>
+        </div>
+        <div className="p-3 pt-1">
+          <Button onClick={onRestore} size="sm" variant="outline">
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Restore
+          </Button>
         </div>
       </CardContent>
     </Card>
