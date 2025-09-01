@@ -242,38 +242,46 @@ export function ImageUploadCompact({
 
   return (
     <div className={className}>
-      <button
-        type="button"
-        onClick={openFileDialog}
-        disabled={disabled}
+      <div
         className={cn(
-          "relative group w-12 h-12 rounded-2xl top-2 left-2 border border-border",
-          "bg-muted flex items-center justify-center transition-colors",
-          "hover:bg-muted/80 focus-visible:outline-2 focus-visible:outline-ring",
-          disabled && "opacity-50 cursor-not-allowed"
+          "relative group w-12 h-12 top-2 left-2",
+          disabled && "opacity-50"
         )}
       >
-        {imageDataUrl ? (
-          <>
+        <button
+          type="button"
+          onClick={openFileDialog}
+          disabled={disabled}
+          className={cn(
+            "w-full h-full rounded-2xl border border-border",
+            "bg-muted flex items-center justify-center transition-colors",
+            "hover:bg-muted/80 focus-visible:outline-2 focus-visible:outline-ring",
+            disabled && "cursor-not-allowed"
+          )}
+        >
+          {imageDataUrl ? (
             <img
               src={imageDataUrl}
               alt="Uploaded thumbnail"
               className="w-full h-full object-cover rounded-2xl"
             />
-            <button
-              type="button"
-              onClick={clearImage}
-              disabled={disabled}
-              className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/90 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
-              aria-label="Remove image"
-            >
-              <X className="h-3 w-3 text-white" />
-            </button>
-          </>
-        ) : (
-          <Upload className="h-5 w-5 text-muted-foreground" />
+          ) : (
+            <Upload className="h-5 w-5 text-muted-foreground" />
+          )}
+        </button>
+
+        {imageDataUrl && (
+          <button
+            type="button"
+            onClick={clearImage}
+            disabled={disabled}
+            className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/90 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+            aria-label="Remove image"
+          >
+            <X className="h-3 w-3 text-white" />
+          </button>
         )}
-      </button>
+      </div>
 
       <input
         ref={fileInputRef}
