@@ -29,7 +29,10 @@ export type RetryOptions = {
   baseDelay?: number;
   maxDelay?: number;
   signal?: AbortSignal;
+  apiMode?: ApiMode;
 };
+
+export type ApiMode = "mock" | "gemini";
 
 export type StudioState = {
   imageDataUrl: string | null;
@@ -39,6 +42,7 @@ export type StudioState = {
   error: string | null;
   history: HistoryItem[];
   abortController: AbortController | null;
+  apiMode: ApiMode;
 };
 
 export type TaskOption = {

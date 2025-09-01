@@ -6,6 +6,7 @@ import { ImageUpload } from "./image-upload";
 import { PromptInput } from "./prompt-input";
 import { TaskSelector } from "./task-selector";
 import { HistorySection } from "./history-section";
+import { ApiModeToggle } from "./api-mode-toggle";
 import { Toaster } from "./ui/sonner";
 import type { TaskOption } from "@/types";
 import { cn } from "@/lib/utils";
@@ -73,6 +74,11 @@ export function StudioMain({ className }: StudioMainProps) {
         className
       )}
     >
+      {/* API Mode Toggle */}
+      <div className="fixed top-4 right-4 z-50">
+        <ApiModeToggle />
+      </div>
+
       <div className="container mx-auto px-4 py-8">
         {/* Main Studio Interface */}
         <div className="max-w-2xl mx-auto space-y-8">

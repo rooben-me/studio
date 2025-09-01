@@ -8,6 +8,21 @@ First, install the dependencies:
 pnpm install
 ```
 
+### API Configuration
+
+This application supports two API modes:
+
+1. **Mock API**: Uses a simulated API with random delays and responses for testing
+2. **Gemini API** (default): Uses Google's Gemini 2.5 Flash Image Preview model through OpenRouter for actual image generation
+
+To use the Gemini API, create a `.env.local` file in the project root:
+
+```bash
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+```
+
+Get your API key from [OpenRouter](https://openrouter.ai/keys).
+
 Then, run the development server:
 
 ```bash
@@ -15,6 +30,14 @@ pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Using the Application
+
+1. Upload an image using the image upload area
+2. Enter a prompt describing what you want to change
+3. Select a task type (optional)
+4. Use the API mode toggle in the top right to switch between Mock and Gemini modes
+5. Click generate to process your image
 
 ## Available Scripts
 
@@ -31,6 +54,8 @@ In the project directory, you can run:
 - **UI**: Tailwind CSS + Shadcn/ui
 - **State Management**: Zustand
 - **Notifications**: Sonner
+- **AI**: Google Gemini 2.5 Flash Image Preview (via OpenRouter)
+- **API**: Mock API for testing + Real Gemini API through OpenRouter
 
 ## Project Structure
 
