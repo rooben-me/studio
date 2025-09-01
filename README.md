@@ -2,8 +2,9 @@
 
 ## Screenshots
 
-<img width="1151" height="612" alt="484111398-a3f4b812-8ee4-425e-928d-f192c2ddafe9 (1)" src="https://github.com/user-attachments/assets/01c8fdc2-375f-4e7d-af12-9ccb888222da" />
 <img width="1152" height="576" alt="484111330-3e134f03-d27e-4c15-8e25-3a9dfbdf7a4c (1) (1)" src="https://github.com/user-attachments/assets/a75b7b5c-d1a9-4663-8d44-ba5dbaa3eacd" />
+<img width="1151" height="612" alt="484111398-a3f4b812-8ee4-425e-928d-f192c2ddafe9 (1)" src="https://github.com/user-attachments/assets/01c8fdc2-375f-4e7d-af12-9ccb888222da" />
+
 
 ## TODOs
 
