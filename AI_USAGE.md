@@ -31,3 +31,11 @@ Using this as a foundation, I used Figma to adjust some elements to create the l
 
 - **Coding Assistant:** Later, I mainly used **Cursor** and **AI Studio (Gemini)** as a coding assistant.
 - **Artwork Generation:** I had very little time to create custom artwork, so I used the **Gemini 2.5 image model** to create images for the style picker (where users can select tasks like change background, change color, restyle, etc.).
+
+### AI Usage Screenshot
+
+I respected the instructions, and since it mentioned that 6-8 hours is the hard stop, I stopped at the 8-hour mark to write this document. I still need to create the video and write the email to you guys. :)
+
+And here is a little evidence. It's an image of my Gemini chat history which shows I first started to chat with it about 8 hours ago.
+
+`![Gemini Chat History](./public/images/evidence/gemini-history.webp)`
