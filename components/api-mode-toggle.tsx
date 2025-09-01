@@ -47,7 +47,20 @@ export function ApiModeToggle({ className }: ApiModeToggleProps) {
   };
 
   return (
-    <div className={cn("flex items-center space-x-3", className)}>
+    <button
+      onClick={() => setApiMode(getNextMode())}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setApiMode(getNextMode());
+        }
+      }}
+      className={cn(
+        "flex items-center cursor-pointer space-x-3 bg-background/70 backdrop-blur-xl border border-border/50 rounded-2xl p-1 pl-2 hover:bg-background/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors",
+        className
+      )}
+      aria-label={`Switch API mode from ${getModeLabel()} to next mode`}
+    >
       <div className="flex items-center space-x-2">
         <Label htmlFor="api-mode" className="text-sm font-medium">
           API Mode
@@ -55,11 +68,10 @@ export function ApiModeToggle({ className }: ApiModeToggleProps) {
         <Badge
           variant="secondary"
           className={cn("text-xs px-2 py-1 cursor-pointer", getModeColor())}
-          onClick={() => setApiMode(getNextMode())}
         >
           {getModeLabel()}
         </Badge>
       </div>
-    </div>
+    </button>
   );
 }
