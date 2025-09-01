@@ -26,7 +26,7 @@ export function HistorySection({
   if (history.length === 0) {
     return (
       <section className={cn("w-full", className)}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto p-6 border bg-gray-50 border-gray-100 rounded-2xl">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <History className="h-5 w-5 text-muted-foreground" />
@@ -49,7 +49,7 @@ export function HistorySection({
 
   return (
     <section className={cn("w-full", className)}>
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto p-6 border bg-gray-50 border-gray-100 rounded-2xl">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <History className="h-5 w-5 text-muted-foreground" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Check } from "lucide-react";
 import {
   Popover,
@@ -17,15 +17,24 @@ interface TaskSelectorProps {
   selectedTask?: string;
   onTaskSelect: (task: TaskOption | null) => void;
   className?: string;
+  forceClose?: boolean;
 }
 
 export function TaskSelector({
   selectedTask,
   onTaskSelect,
   className,
+  forceClose = false,
 }: TaskSelectorProps) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Force close popover when needed (e.g., during generation)
+  useEffect(() => {
+    if (forceClose) {
+      setOpen(false);
+    }
+  }, [forceClose]);
 
   const filteredTasks = TASK_OPTIONS.filter(
     (task) =>
@@ -54,12 +63,14 @@ export function TaskSelector({
         <Button
           variant="outline"
           className={cn(
-            "justify-between bg-background/70 backdrop-blur-xl border-white/20 rounded-full shadow-md",
+            "justify-between bg-background/70 backdrop-blur-xl border border-border/50 rounded-t-none",
             selectedTask && "ring-2 ring-primary ring-offset-2",
             className
           )}
         >
-          <span className="text-sm">{selectedTaskLabel}</span>
+          <span className="text-sm text-muted-foreground">
+            {selectedTaskLabel}
+          </span>
           <svg
             viewBox="0 0 24 24"
             className="w-4 h-4 text-muted-foreground ml-2"
@@ -138,24 +149,35 @@ export function TaskSelector({
   );
 }
 
-export function TaskGrid({
-  tasks = TASK_OPTIONS,
-  onTaskSelect,
-  selectedTask,
-  columns = 2,
-}: {
+interface TaskGridProps {
   tasks?: TaskOption[];
   onTaskSelect: (task: TaskOption) => void;
   selectedTask?: string;
   columns?: number;
-}) {
+  className?: string;
+  showImages?: boolean;
+}
+
+export function TaskGrid({
+  tasks = TASK_OPTIONS,
+  onTaskSelect,
+  selectedTask,
+  columns = 3,
+  className,
+  showImages = true,
+}: TaskGridProps) {
   return (
     <div
-      className={cn("grid gap-2", {
-        "grid-cols-1": columns === 1,
-        "grid-cols-2": columns === 2,
-        "grid-cols-3": columns === 3,
-      })}
+      className={cn(
+        "grid gap-4",
+        {
+          "grid-cols-1": columns === 1,
+          "grid-cols-2": columns === 2,
+          "grid-cols-3": columns === 3,
+          "grid-cols-4": columns === 4,
+        },
+        className
+      )}
     >
       {tasks.map((task) => (
         <Button
@@ -163,16 +185,45 @@ export function TaskGrid({
           variant="ghost"
           onClick={() => onTaskSelect(task)}
           className={cn(
-            "h-auto p-3 flex flex-col items-start text-left hover:bg-accent",
-            selectedTask === task.id && "bg-accent"
+            "h-auto p-0 flex flex-col items-start text-left rounded-xl overflow-hidden group hover:shadow-lg transition-all duration-200",
+            selectedTask === task.id && "ring-2 ring-primary bg-accent"
           )}
         >
-          <span className="font-medium text-sm">{task.label}</span>
-          {task.description && (
-            <span className="text-xs text-muted-foreground mt-1">
-              {task.description}
-            </span>
+          {showImages && (
+            <div className="relative w-full aspect-[3/4] bg-muted flex items-center justify-center overflow-hidden">
+              {task.placeholderImage ? (
+                <img
+                  src={task.placeholderImage}
+                  alt={task.label}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              ) : (
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                  <span className="text-lg font-medium text-primary">
+                    {task.label.charAt(0)}
+                  </span>
+                </div>
+              )}
+              {selectedTask === task.id && (
+                <div className="absolute top-2 right-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-primary-foreground" />
+                </div>
+              )}
+            </div>
           )}
+          <div className="p-4 w-full">
+            <span className="font-semibold text-sm block mb-1">
+              {task.label}
+            </span>
+            {task.description && (
+              <span className="text-xs text-muted-foreground leading-relaxed">
+                {task.description}
+              </span>
+            )}
+          </div>
         </Button>
       ))}
     </div>

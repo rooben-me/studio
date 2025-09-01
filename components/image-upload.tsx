@@ -12,6 +12,7 @@ interface ImageUploadProps {
   onImageChange: (dataUrl: string | null) => void;
   disabled?: boolean;
   className?: string;
+  showLoadingState?: boolean;
 }
 
 export function ImageUpload({
@@ -19,6 +20,7 @@ export function ImageUpload({
   onImageChange,
   disabled = false,
   className,
+  showLoadingState = false,
 }: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -130,18 +132,30 @@ export function ImageUpload({
               alt="Uploaded image"
               className="max-w-full max-h-full object-contain"
             />
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={(e) => {
-                e.stopPropagation();
-                clearImage();
-              }}
-              disabled={disabled}
-              className="absolute top-2 right-2 h-8 w-8 rounded-full p-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            {showLoadingState && (
+              <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+                <div className="text-center space-y-3">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">Generating...</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            {!showLoadingState && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  clearImage();
+                }}
+                disabled={disabled}
+                className="absolute top-2 right-2 h-8 w-8 rounded-full p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
           </>
         ) : (
           <div className="flex flex-col items-center gap-2 text-center p-6">

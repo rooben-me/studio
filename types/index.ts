@@ -1,6 +1,7 @@
 export type Generation = {
   id: string;
   imageUrl: string;
+  originalImageUrl?: string;
   prompt: string;
   task: string;
   createdAt: string;
@@ -36,6 +37,7 @@ export type ApiMode = "mock" | "gemini";
 
 export type StudioState = {
   imageDataUrl: string | null;
+  originalImageUrl: string | null;
   prompt: string;
   task: string | null;
   generationState: GenerationState;

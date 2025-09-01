@@ -75,12 +75,13 @@ function isValidHistoryItem(item: any): item is HistoryItem {
     typeof item.prompt === "string" &&
     typeof item.task === "string" &&
     typeof item.createdAt === "string" &&
+    (item.originalImageUrl === undefined ||
+      typeof item.originalImageUrl === "string") &&
     item.id.length > 0 &&
     item.imageUrl.length > 0
   );
 }
 
-// Generic storage utilities
 export function safeLocalStorageGet<T>(key: string, defaultValue: T): T {
   if (typeof window === "undefined") return defaultValue;
 
