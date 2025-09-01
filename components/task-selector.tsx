@@ -69,8 +69,8 @@ export function TaskSelector({
           </svg>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-0" align="center">
-        <div className="p-4">
+      <PopoverContent className="w-[800px] p-0" align="center">
+        <div className="p-4 w-full">
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -80,18 +80,18 @@ export function TaskSelector({
               className="pl-9"
             />
           </div>
-          <div className="grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
+          <div className="p-0.5 grid grid-cols-2 md:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
             {filteredTasks.map((task) => (
               <Button
                 key={task.id}
                 variant="ghost"
                 onClick={() => handleTaskSelect(task)}
                 className={cn(
-                  "h-auto p-0 flex flex-col items-start text-left hover:bg-accent rounded-lg overflow-hidden",
+                  "h-auto p-0 flex flex-col items-start text-left rounded-lg overflow-hidden",
                   selectedTask === task.id && "ring-2 ring-primary bg-accent"
                 )}
               >
-                <div className="relative w-full h-20 bg-muted flex items-center justify-center">
+                <div className="relative w-full aspect-[3/4] bg-muted flex items-center justify-center">
                   {task.placeholderImage ? (
                     <img
                       src={task.placeholderImage}
