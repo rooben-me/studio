@@ -115,17 +115,27 @@ export function StudioMain({ className }: StudioMainProps) {
           className
         )}
       >
-        {/* API Mode Toggle */}
-        <div className="fixed top-4 right-4 z-50">
-          <ApiModeToggle />
-        </div>
+        {/* Header */}
+        <header className="border-b border-border/10">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">S</span>
+                </div>
+                <h1 className="text-xl font-semibold text-foreground">
+                  Studio
+                </h1>
+              </div>
+              <ApiModeToggle />
+            </div>
+          </div>
+        </header>
 
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-4 py-12">
           <ResultComparison
             originalImage={originalImageUrl}
             generatedImage={imageDataUrl}
-            prompt={prompt}
-            task={task || ""}
             onStartOver={handleStartOver}
             onDownload={handleDownload}
             onShare={handleShare}
@@ -153,10 +163,20 @@ export function StudioMain({ className }: StudioMainProps) {
         className
       )}
     >
-      {/* API Mode Toggle */}
-      <div className="fixed top-4 right-4 z-50">
-        <ApiModeToggle />
-      </div>
+      {/* Header */}
+      <header className="border-b border-border/10">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">S</span>
+              </div>
+              <h1 className="text-xl font-semibold text-foreground">Studio</h1>
+            </div>
+            <ApiModeToggle />
+          </div>
+        </div>
+      </header>
 
       <div className="container mx-auto px-4 py-8">
         {/* Main Studio Interface */}

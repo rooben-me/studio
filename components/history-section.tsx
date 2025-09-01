@@ -117,17 +117,50 @@ function HistoryCard({
       onMouseLeave={onMouseLeave}
     >
       <CardContent className="p-0">
+        {/* Image Comparison */}
         <div className="relative aspect-square overflow-hidden">
-          <img
-            src={item.imageUrl}
-            alt={`Generated: ${item.prompt}`}
-            className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
-          />
+          {item.originalImageUrl ? (
+            <div className="flex h-full">
+              {/* Original Image */}
+              <div className="w-1/2 relative overflow-hidden">
+                <img
+                  src={item.originalImageUrl}
+                  alt="Original"
+                  className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
+                />
+                <div className="absolute bottom-1 left-1">
+                  <span className="px-1.5 py-0.5 bg-background/90 backdrop-blur-sm rounded text-xs font-medium">
+                    Before
+                  </span>
+                </div>
+              </div>
 
-          {/* Style badge */}
+              {/* Generated Image */}
+              <div className="w-1/2 relative overflow-hidden border-l border-border/20">
+                <img
+                  src={item.imageUrl}
+                  alt="Generated"
+                  className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
+                />
+                <div className="absolute bottom-1 right-1">
+                  <span className="px-1.5 py-0.5 bg-primary/90 backdrop-blur-sm rounded text-xs font-medium text-primary-foreground">
+                    After
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <img
+              src={item.imageUrl}
+              alt={`Generated: ${item.prompt}`}
+              className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
+            />
+          )}
+
+          {/* Task badge */}
           <div className="absolute top-2 left-2">
-            <span className="px-2 py-1 bg-background/80 backdrop-blur-sm rounded-full text-xs font-medium">
-              {item.task}
+            <span className="px-2 py-1 bg-background/90 backdrop-blur-sm rounded-full text-xs font-medium capitalize">
+              {item.task.replace("-", " ")}
             </span>
           </div>
         </div>
@@ -137,9 +170,14 @@ function HistoryCard({
           <p className="text-xs text-muted-foreground">{formattedDate}</p>
         </div>
         <div className="p-3 pt-1">
-          <Button onClick={onRestore} size="sm" variant="outline">
+          <Button
+            onClick={onRestore}
+            size="sm"
+            variant="outline"
+            className="w-full"
+          >
             <RotateCcw className="h-4 w-4 mr-2" />
-            Restore
+            Restore This Result
           </Button>
         </div>
       </CardContent>

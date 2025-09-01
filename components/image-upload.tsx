@@ -163,18 +163,24 @@ export function ImageUpload({
               <ImageIcon className="h-8 w-8 text-muted-foreground" />
             </div>
             <div>
-              <p className="text-sm font-medium">
-                {isDragOver ? "Drop your image here" : "Upload an image"}
+              <p className="text-lg font-medium mb-2">
+                {isDragOver ? "Perfect, drop it here" : "Choose your image"}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mb-3">
                 {isDragOver
-                  ? "Release to upload"
-                  : "Drag and drop or click to select"}
+                  ? "Release to get started"
+                  : "Drag & drop or click to browse"}
               </p>
               {!isDragOver && (
-                <p className="text-xs text-muted-foreground">
-                  PNG, JPG up to 10MB
-                </p>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-full">
+                  <span className="text-xs font-medium text-muted-foreground">
+                    PNG or JPG
+                  </span>
+                  <span className="w-1 h-1 bg-muted-foreground/40 rounded-full"></span>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    Up to 10MB
+                  </span>
+                </div>
               )}
             </div>
           </div>

@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 interface ResultComparisonProps {
   originalImage: string;
   generatedImage: string;
-  prompt: string;
-  task: string;
+  prompt?: string;
+  task?: string;
   onStartOver?: () => void;
   onDownload?: () => void;
   onShare?: () => void;
@@ -19,20 +19,31 @@ interface ResultComparisonProps {
 export function ResultComparison({
   originalImage,
   generatedImage,
-  prompt,
-  task,
   onStartOver,
   onDownload,
   onShare,
   className,
 }: ResultComparisonProps) {
   return (
-    <div className={cn("max-w-4xl mx-auto space-y-8", className)}>
+    <div className={cn("max-w-5xl mx-auto", className)}>
       {/* Header */}
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-foreground">
-          Your result is ready!
-        </h2>
+      <div className="text-center flex items-center justify-center gap-4">
+        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-500/10">
+          <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+            <svg
+              className="w-4 h-4 text-white"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+        <p className="text-muted-foreground text-lg">Your Results are ready</p>
       </div>
 
       {/* Comparison Container */}
@@ -51,52 +62,35 @@ export function ResultComparison({
         </div>
       </div>
 
-      {/* Prompt and Task Info */}
-      <div className="bg-background/70 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
-        <div className="space-y-3">
-          <div>
-            <span className="text-sm font-medium text-muted-foreground">
-              Task:
-            </span>
-            <p className="text-foreground capitalize">
-              {task.replace("-", " ")}
-            </p>
-          </div>
-          <div>
-            <span className="text-sm font-medium text-muted-foreground">
-              Prompt:
-            </span>
-            <p className="text-foreground">{prompt}</p>
-          </div>
-        </div>
-      </div>
-
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
         <Button
           onClick={onDownload}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground px-6"
+          size="lg"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105"
         >
-          <Download className="w-4 h-4 mr-2" />
-          Download Result
+          <Download className="w-5 h-5 mr-2" />
+          Download
         </Button>
 
         <Button
           variant="outline"
+          size="lg"
           onClick={onShare}
-          className="border-white/20 bg-background/70 backdrop-blur-xl hover:bg-background/90"
+          className="border-border/50 bg-background/80 backdrop-blur-sm hover:bg-background px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105"
         >
-          <Share2 className="w-4 h-4 mr-2" />
+          <Share2 className="w-5 h-5 mr-2" />
           Share
         </Button>
 
         <Button
-          variant="outline"
+          variant="ghost"
+          size="lg"
           onClick={onStartOver}
-          className="border-white/20 bg-background/70 backdrop-blur-xl hover:bg-background/90"
+          className="text-muted-foreground hover:text-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105"
         >
-          <RotateCcw className="w-4 h-4 mr-2" />
-          Start Over
+          <RotateCcw className="w-5 h-5 mr-2" />
+          Create Another
         </Button>
       </div>
     </div>

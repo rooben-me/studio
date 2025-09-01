@@ -2,10 +2,17 @@ import type { TaskOption } from "@/types";
 
 export const TASK_OPTIONS: TaskOption[] = [
   {
-    id: "remove-object",
-    label: "Remove Object",
-    description: "Remove unwanted objects or people from your image",
-    placeholderImage: "/images/tasks/remove-object.webp",
+    id: "change-colors",
+    label: "Change Colors",
+    description: "Modify specific colors or overall color palette",
+    placeholderImage: "/images/tasks/change-colors.webp",
+  },
+
+  {
+    id: "face-editing",
+    label: "Face Editing",
+    description: "Edit facial features and expressions",
+    placeholderImage: "/images/tasks/face-editing.webp",
   },
   {
     id: "change-background",
@@ -14,34 +21,29 @@ export const TASK_OPTIONS: TaskOption[] = [
     placeholderImage: "/images/tasks/change-background.webp",
   },
   {
-    id: "style-transfer",
-    label: "Style Transfer",
-    description: "Apply artistic styles to your image",
-    placeholderImage: "/images/tasks/style-transfer.webp",
-  },
-  {
-    id: "change-colors",
-    label: "Change Colors",
-    description: "Modify specific colors or overall color palette",
-    placeholderImage: "/images/tasks/change-colors.webp",
-  },
-  {
-    id: "add-elements",
-    label: "Add Elements",
-    description: "Add new objects or elements to your image",
-    placeholderImage: "/images/tasks/add-elements.webp",
-  },
-  {
     id: "lighting-effects",
     label: "Lighting Effects",
     description: "Adjust lighting, shadows, and highlights",
     placeholderImage: "/images/tasks/lighting-effects.webp",
   },
   {
-    id: "face-editing",
-    label: "Face Editing",
-    description: "Edit facial features and expressions",
-    placeholderImage: "/images/tasks/face-editing.webp",
+    id: "remove-object",
+    label: "Remove Object",
+    description: "Remove unwanted objects or people from your image",
+    placeholderImage: "/images/tasks/remove-object.webp",
+  },
+  {
+    id: "style-transfer",
+    label: "Style Transfer",
+    description: "Apply artistic styles to your image",
+    placeholderImage: "/images/tasks/style-transfer.webp",
+  },
+
+  {
+    id: "add-elements",
+    label: "Add Elements",
+    description: "Add new objects or elements to your image",
+    placeholderImage: "/images/tasks/add-elements.webp",
   },
 ];
 
