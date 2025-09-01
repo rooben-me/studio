@@ -64,7 +64,7 @@ export const PromptInput = forwardRef<HTMLInputElement, PromptInputProps>(
           onImageChange={onImageChange}
           disabled={disabled}
         />
-        <div className="flex gap-3 w-full">
+        <div className="flex gap-3 w-full relative right-0 -bottom-2">
           {/* Prompt Input */}
           <Input
             ref={ref}

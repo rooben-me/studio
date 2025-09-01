@@ -247,7 +247,7 @@ export function ImageUploadCompact({
         onClick={openFileDialog}
         disabled={disabled}
         className={cn(
-          "relative group w-12 h-12 rounded-2xl border border-border",
+          "relative group w-12 h-12 rounded-2xl top-2 left-2 border border-border",
           "bg-muted flex items-center justify-center transition-colors",
           "hover:bg-muted/80 focus-visible:outline-2 focus-visible:outline-ring",
           disabled && "opacity-50 cursor-not-allowed"
