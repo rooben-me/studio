@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { StudioState, HistoryItem, TaskOption } from "@/types";
+import type { StudioState, HistoryItem, TaskOption, ApiMode } from "@/types";
 import { generateWithRetry } from "@/lib/api";
 import { saveHistoryItem, loadHistory, clearHistory } from "@/lib/storage";
 import { showGenerationToast } from "@/lib/toast";
@@ -28,6 +28,9 @@ type StudioActions = {
   startGeneration: () => Promise<void>;
   abortGeneration: () => void;
 
+  // API Mode actions
+  setApiMode: (mode: ApiMode) => void;
+
   // Error actions
   clearError: () => void;
 };
@@ -40,6 +43,7 @@ const initialState: StudioState = {
   error: null,
   history: [],
   abortController: null,
+  apiMode: "gemini",
 };
 
 export const useStudioStore = create<StudioState & StudioActions>()(
@@ -123,6 +127,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
             {
               signal: abortController.signal,
               maxAttempts: 3,
+              apiMode: state.apiMode,
             }
           );
 
@@ -170,6 +175,11 @@ export const useStudioStore = create<StudioState & StudioActions>()(
         }
       },
 
+      // API Mode actions
+      setApiMode: (mode) => {
+        set({ apiMode: mode });
+      },
+
       // Error actions
       clearError: () => {
         set({ error: null });
@@ -180,6 +190,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
       partialize: (state) => ({
         prompt: state.prompt,
         task: state.task,
+        apiMode: state.apiMode,
       }),
     }
   )
