@@ -1,7 +1,5 @@
 # Studio - Ruban Assignment
 
----
-
 ## Demo & Screenshots
 
 **Video Demo**
@@ -10,8 +8,6 @@
 **Application Screenshots**
 `/public/screenshots/screenshot-1.png`
 `/public/screenshots/screenshot-2.png`
-
----
 
 ## TODOs
 
@@ -25,8 +21,6 @@
 ### Future
 
 -   Connect a DB, add authentication and add a rate limiter.
-
----
 
 ## Getting Started
 
