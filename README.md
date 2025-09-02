@@ -5,19 +5,18 @@
 <img width="1152" height="576" alt="484111330-3e134f03-d27e-4c15-8e25-3a9dfbdf7a4c (1) (1)" src="https://github.com/user-attachments/assets/a75b7b5c-d1a9-4663-8d44-ba5dbaa3eacd" />
 <img width="1151" height="612" alt="484111398-a3f4b812-8ee4-425e-928d-f192c2ddafe9 (1)" src="https://github.com/user-attachments/assets/01c8fdc2-375f-4e7d-af12-9ccb888222da" />
 
-
 ## TODOs
 
--   The image generated from the Gemini API gives a huge file (more than 3MB) and is not downscaled. As we are currently storing it in local storage, this is causing an issue and needs to be handled.
--   Improve homepage styling.
--   Fix some capitalization issues in the history badges.
--   Add a task selector ( like a carousel ) on the home page instead of showing the image upload in the beginning of the user journey.
--   Remove the small image upload component (This was kept for the task selector feature, but we can remove this for now).
--   Add suggested autocomplete to the input prompt based on the task selected (e.g., if "change color" is selected, show a colors dropdown. if "change background" is selected, have a popover with a variety of backgrounds, etc.).
+- ✅ The image generated from the Gemini API gives a huge file (more than 3MB) and is not downscaled. As we are currently storing it in local storage, this is causing an issue and needs to be handled.
+- ✅ Improve homepage styling.
+- ✅ Fix some capitalization issues in the history badges.
+- ✅ Remove the small image upload component (This was kept for the task selector feature, but we can remove this for now).
+- [ ] Add a task selector ( like a carousel ) on the home page instead of showing the image upload in the beginning of the user journey.
+- [ ] Add suggested autocomplete to the input prompt based on the task selected (e.g., if "change color" is selected, show a colors dropdown. if "change background" is selected, have a popover with a variety of backgrounds, etc.).
 
 ### Future
 
--   Connect a DB, add authentication and add a rate limiter.
+- [ ] Connect a DB, add authentication and add a rate limiter.
 
 ## Getting Started
 
