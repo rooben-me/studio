@@ -4,7 +4,6 @@ import { forwardRef } from "react";
 import { Send, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ImageUploadCompact } from "./image-upload";
 import { cn } from "@/lib/utils";
 
 interface PromptInputProps {
@@ -53,18 +52,12 @@ export const PromptInput = forwardRef<HTMLInputElement, PromptInputProps>(
     return (
       <div
         className={cn(
-          "flex flex-col items-start gap-2 rounded-3xl bg-background/70 backdrop-blur-xl",
-          "border border-border/50 shadow-sm p-2 pl-3",
+          "flex flex-col items-start gap-2 rounded-full bg-background/70 backdrop-blur-xl",
+          "border border-border/50 shadow-sm p-2 pl-4",
           className
         )}
       >
-        {/* Image Upload Thumbnail */}
-        <ImageUploadCompact
-          imageDataUrl={imageDataUrl}
-          onImageChange={onImageChange}
-          disabled={disabled}
-        />
-        <div className="flex gap-3 w-full relative right-0 -bottom-2">
+        <div className="flex gap-3 w-full items-center">
           {/* Prompt Input */}
           <Input
             ref={ref}
