@@ -52,6 +52,7 @@ export const MAX_IMAGE_DIMENSION = 1920;
 export const DEFAULT_IMAGE_QUALITY = 0.92;
 export const HISTORY_STORAGE_KEY = "ai-studio-history-v1";
 export const STUDIO_STORAGE_KEY = "studio-prefs";
+export const ONBOARDING_STORAGE_KEY = "studio-onboarding-seen";
 export const MAX_HISTORY_ITEMS = 5;
 export const MAX_STORAGE_IMAGE_BYTES = 1024 * 1024;
 export const FALLBACK_IMAGE_BYTES = 512 * 1024;
