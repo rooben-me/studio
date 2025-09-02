@@ -143,13 +143,20 @@ export const useStudioStore = create<StudioState & StudioActions>()(
           ...result,
           originalImageUrl: result.originalImageUrl || state.imageDataUrl,
         };
-        saveHistoryItem(historyItem);
-        const updatedHistory = loadHistory();
+
+        // Save to history with compression (async but don't wait)
+        saveHistoryItem(historyItem)
+          .then(() => {
+            const updatedHistory = loadHistory();
+            set({ history: updatedHistory });
+          })
+          .catch((error) => {
+            console.error("Failed to save to history:", error);
+          });
 
         // Update state with result
         set({
           imageDataUrl: result.imageUrl,
-          history: updatedHistory,
           generationState: "success",
           abortController: null,
         });

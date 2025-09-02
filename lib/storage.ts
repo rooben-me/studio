@@ -1,5 +1,12 @@
 import type { HistoryItem } from "@/types";
-import { HISTORY_STORAGE_KEY, MAX_HISTORY_ITEMS } from "@/constants";
+import {
+  HISTORY_STORAGE_KEY,
+  MAX_HISTORY_ITEMS,
+  MAX_STORAGE_IMAGE_BYTES,
+  FALLBACK_IMAGE_BYTES,
+} from "@/constants";
+import { compressToMaxBytes, estimateDataUrlBytes } from "./downscale";
+import { toast } from "sonner";
 
 export function loadHistory(): HistoryItem[] {
   if (typeof window === "undefined") return [];
@@ -23,7 +30,7 @@ export function loadHistory(): HistoryItem[] {
   }
 }
 
-export function saveHistoryItem(item: HistoryItem): void {
+export async function saveHistoryItem(item: HistoryItem): Promise<void> {
   if (typeof window === "undefined") return;
 
   try {
@@ -32,15 +39,30 @@ export function saveHistoryItem(item: HistoryItem): void {
       return;
     }
 
+    // Compress images to reduce localStorage usage
+    const processedItem = await processHistoryItemImages(item);
+
     const currentHistory = loadHistory();
     const filteredHistory = currentHistory.filter(
       (existing) => existing.id !== item.id
     );
-    const newHistory = [item, ...filteredHistory].slice(0, MAX_HISTORY_ITEMS);
+    const newHistory = [processedItem, ...filteredHistory].slice(
+      0,
+      MAX_HISTORY_ITEMS
+    );
 
-    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(newHistory));
+    await saveHistoryWithFallback(newHistory);
   } catch (error) {
     console.error("Failed to save history item:", error);
+    if (isQuotaExceededError(error)) {
+      console.warn(
+        "localStorage quota exceeded. Clearing old history to make space."
+      );
+      toast.warning("Storage full. Clearing old history to save new result.");
+      await clearOldHistoryAndRetry(item);
+    } else {
+      toast.error("Failed to save result to history");
+    }
   }
 }
 
@@ -101,4 +123,104 @@ export function safeLocalStorageSet<T>(key: string, value: T): void {
   } catch (error) {
     console.error(`Failed to save to localStorage (${key}):`, error);
   }
+}
+
+async function processHistoryItemImages(
+  item: HistoryItem
+): Promise<HistoryItem> {
+  try {
+    const processedItem = { ...item };
+
+    // Compress the generated image
+    if (item.imageUrl && isDataUrl(item.imageUrl)) {
+      const compressedImage = await compressToMaxBytes(
+        item.imageUrl,
+        MAX_STORAGE_IMAGE_BYTES
+      );
+      processedItem.imageUrl = compressedImage;
+    }
+
+    // Compress the original image if it exists
+    if (item.originalImageUrl && isDataUrl(item.originalImageUrl)) {
+      const compressedOriginal = await compressToMaxBytes(
+        item.originalImageUrl,
+        MAX_STORAGE_IMAGE_BYTES
+      );
+      processedItem.originalImageUrl = compressedOriginal;
+    }
+
+    return processedItem;
+  } catch (error) {
+    console.warn("Failed to compress images, using originals:", error);
+    return item;
+  }
+}
+
+async function saveHistoryWithFallback(history: HistoryItem[]): Promise<void> {
+  try {
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
+  } catch (error) {
+    if (isQuotaExceededError(error)) {
+      const compressedHistory = await Promise.all(
+        history.map(async (item) => {
+          const processedItem = { ...item };
+
+          if (item.imageUrl && isDataUrl(item.imageUrl)) {
+            try {
+              processedItem.imageUrl = await compressToMaxBytes(
+                item.imageUrl,
+                FALLBACK_IMAGE_BYTES
+              );
+            } catch {
+              processedItem.imageUrl = "";
+            }
+          }
+
+          if (item.originalImageUrl && isDataUrl(item.originalImageUrl)) {
+            try {
+              processedItem.originalImageUrl = await compressToMaxBytes(
+                item.originalImageUrl,
+                FALLBACK_IMAGE_BYTES
+              );
+            } catch {
+              processedItem.originalImageUrl = "";
+            }
+          }
+
+          return processedItem;
+        })
+      );
+
+      localStorage.setItem(
+        HISTORY_STORAGE_KEY,
+        JSON.stringify(compressedHistory)
+      );
+    } else {
+      throw error;
+    }
+  }
+}
+
+async function clearOldHistoryAndRetry(newItem: HistoryItem): Promise<void> {
+  try {
+    clearHistory();
+    const processedItem = await processHistoryItemImages(newItem);
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify([processedItem]));
+  } catch (error) {
+    console.error("Failed to save even after clearing history:", error);
+  }
+}
+
+function isDataUrl(url: string): boolean {
+  return url.startsWith("data:");
+}
+
+function isQuotaExceededError(error: any): boolean {
+  return (
+    error?.name === "QuotaExceededError" ||
+    error?.name === "NS_ERROR_DOM_QUOTA_REACHED" ||
+    error?.code === 22 ||
+    error?.message?.includes("quota") ||
+    error?.message?.includes("storage")
+  );
 }

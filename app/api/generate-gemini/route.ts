@@ -1,5 +1,4 @@
 import type { NextRequest } from "next/server";
-import { downscaleToMaxDimension } from "@/lib/downscale";
 
 export async function POST(req: NextRequest) {
   try {
@@ -114,17 +113,6 @@ export async function POST(req: NextRequest) {
           status: 500,
         }
       );
-    }
-
-    // Downscale the generated image to reduce size
-    try {
-      generatedImageDataUrl = await downscaleToMaxDimension(
-        generatedImageDataUrl,
-        1024,
-        0.8
-      );
-    } catch (downscaleError) {
-      console.warn("Failed to downscale image:", downscaleError);
     }
 
     const result = {
