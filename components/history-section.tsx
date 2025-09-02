@@ -108,7 +108,7 @@ function HistoryCard({
     month: "short",
     day: "numeric",
     hour: "2-digit",
-    minute: "2-digit",
+    minute: "numeric",
   });
 
   return (
@@ -117,7 +117,7 @@ function HistoryCard({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <CardContent className="p-0">
+      <CardContent className="p-0 h-full flex flex-col">
         {/* Image Comparison */}
         <div className="relative aspect-square overflow-hidden">
           {item.originalImageUrl ? (
@@ -159,7 +159,7 @@ function HistoryCard({
           )}
         </div>
 
-        <div className="flex items-center justify-between p-3">
+        <div className="flex items-start justify-between gap-2 p-3">
           <div className="flex flex-col">
             <p className="text-sm font-medium line-clamp-2 mb-1">
               {item.prompt}
@@ -171,13 +171,8 @@ function HistoryCard({
             {item.task.replace("-", " ")}
           </Badge>
         </div>
-        <div className="p-3 pt-1">
-          <Button
-            onClick={onRestore}
-            size="sm"
-            variant="outline"
-            className="w-full"
-          >
+        <div className="p-3 pt-1 mt-auto">
+          <Button onClick={onRestore} variant="outline" className="w-full">
             <RotateCcw className="h-4 w-4 mr-2" />
             Restore This Result
           </Button>

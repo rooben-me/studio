@@ -91,7 +91,7 @@ export const PromptInput = forwardRef<HTMLInputElement, PromptInputProps>(
                 className={cn(
                   "h-10 w-10 rounded-full p-0 shrink-0",
                   canGenerate
-                    ? "bg-indigo-500 hover:bg-indigo-600 text-white"
+                    ? "bg-indigo-600 hover:bg-indigo-700 text-white"
                     : ""
                 )}
               >

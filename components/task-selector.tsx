@@ -65,7 +65,7 @@ export function TaskSelector({
           className={cn(
             "justify-between bg-background/70 backdrop-blur-xl border border-border/50 rounded-t-none text-muted-foreground",
             selectedTask &&
-              "bg-indigo-100 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-800",
+              "bg-indigo-100 text-indigo-700 hover:bg-indigo-50 hover:text-indigo-800",
             className
           )}
         >
@@ -94,7 +94,7 @@ export function TaskSelector({
                 onClick={() => handleTaskSelect(task)}
                 className={cn(
                   "h-auto p-0 flex flex-col items-start text-left rounded-lg overflow-hidden",
-                  selectedTask === task.id && "ring-2 ring-indigo-500 bg-accent"
+                  selectedTask === task.id && "ring-2 ring-indigo-600 bg-accent"
                 )}
               >
                 <div className="relative w-full aspect-[3/4] bg-muted flex items-center justify-center">
