@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { processImageFile } from "@/lib/downscale";
@@ -110,6 +110,47 @@ export function ImageUpload({
     [disabled]
   );
 
+  const handlePaste = useCallback(
+    async (e: ClipboardEvent) => {
+      if (disabled) return;
+
+      // Only process paste if no input/textarea is focused
+      const activeElement = document.activeElement;
+      if (
+        activeElement &&
+        (activeElement.tagName === "INPUT" ||
+          activeElement.tagName === "TEXTAREA" ||
+          activeElement.getAttribute("contenteditable") === "true")
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      for (const item of Array.from(items)) {
+        if (item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) {
+            await handleFileSelect(file);
+            break;
+          }
+        }
+      }
+    },
+    [disabled, handleFileSelect]
+  );
+
+  useEffect(() => {
+    if (!disabled) {
+      document.addEventListener("paste", handlePaste);
+      return () => {
+        document.removeEventListener("paste", handlePaste);
+      };
+    }
+  }, [disabled, handlePaste]);
+
   const handleClearKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -148,7 +189,11 @@ export function ImageUpload({
         onKeyDown={handleKeyDown}
         tabIndex={disabled ? -1 : 0}
         role="button"
-        aria-label={imageDataUrl ? "Change uploaded image" : "Upload image"}
+        aria-label={
+          imageDataUrl
+            ? "Change uploaded image (or press Ctrl+V to paste)"
+            : "Upload image (or press Ctrl+V to paste)"
+        }
       >
         {imageDataUrl ? (
           <>
@@ -196,7 +241,7 @@ export function ImageUpload({
               <p className="text-sm text-muted-foreground mb-3">
                 {isDragOver
                   ? "Release to get started"
-                  : "Drag & drop or click to browse"}
+                  : "Drag & drop, click to browse, or just press Ctrl+V to paste"}
               </p>
               {!isDragOver && (
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-full">
@@ -215,124 +260,6 @@ export function ImageUpload({
       </div>
 
       {/* Hidden file input */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/png,image/jpeg,image/jpg"
-        onChange={handleFileChange}
-        className="hidden"
-        disabled={disabled}
-      />
-    </div>
-  );
-}
-
-// Compact version for use in other components
-export function ImageUploadCompact({
-  imageDataUrl,
-  onImageChange,
-  disabled = false,
-  className,
-}: ImageUploadProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleFileChange = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-
-      try {
-        const result = await processImageFile(file);
-        onImageChange(result.dataUrl);
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Unknown error occurred";
-        showImageToast.processingError(message);
-      }
-
-      // Reset input value
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    },
-    [onImageChange]
-  );
-
-  const openFileDialog = () => {
-    fileInputRef.current?.click();
-  };
-
-  const clearImage = (e: React.MouseEvent | React.KeyboardEvent) => {
-    e.stopPropagation();
-    onImageChange(null);
-  };
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (disabled) return;
-
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openFileDialog();
-      }
-    },
-    [disabled]
-  );
-
-  const handleClearKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      e.stopPropagation();
-      clearImage(e);
-    }
-  }, []);
-
-  return (
-    <div className={className}>
-      <div
-        className={cn(
-          "relative group w-12 h-12 top-2 left-2",
-          disabled && "opacity-50"
-        )}
-      >
-        <button
-          type="button"
-          onClick={openFileDialog}
-          onKeyDown={handleKeyDown}
-          disabled={disabled}
-          className={cn(
-            "w-full h-full rounded-2xl border border-border",
-            "bg-muted flex items-center justify-center transition-colors",
-            "hover:bg-muted/80 focus-visible:outline-2 focus-visible:outline-ring",
-            disabled && "cursor-not-allowed"
-          )}
-          aria-label={imageDataUrl ? "Change uploaded image" : "Upload image"}
-        >
-          {imageDataUrl ? (
-            <img
-              src={imageDataUrl}
-              alt="Uploaded thumbnail"
-              className="w-full h-full object-cover rounded-2xl"
-            />
-          ) : (
-            <Upload className="h-5 w-5 text-muted-foreground" />
-          )}
-        </button>
-
-        {imageDataUrl && (
-          <button
-            type="button"
-            onClick={clearImage}
-            onKeyDown={handleClearKeyDown}
-            disabled={disabled}
-            className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/90 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
-            aria-label="Remove image"
-          >
-            <X className="h-3 w-3 text-white" />
-          </button>
-        )}
-      </div>
-
       <input
         ref={fileInputRef}
         type="file"

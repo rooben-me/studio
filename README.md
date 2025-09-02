@@ -11,6 +11,7 @@
 - [x] ~~Improve homepage styling.~~
 - [x] ~~Fix some capitalization issues in the history badges.~~
 - [x] ~~Remove the small image upload component (This was kept for the task selector feature, but we can remove this for now).~~
+- [x] ~~Allow keyboard to paste image by clipboard.~~
 - [ ] Add a task selector ( like a carousel ) on the home page instead of showing the image upload in the beginning of the user journey.
 - [ ] Add suggested autocomplete to the input prompt based on the task selected (e.g., if "change color" is selected, show a colors dropdown. if "change background" is selected, have a popover with a variety of backgrounds, etc.).
 - [ ] Add a lightbox to image components to view images in full screen.
