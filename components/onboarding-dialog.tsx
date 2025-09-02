@@ -53,11 +53,9 @@ export function OnboardingDialog({
 
         <div className="bg-background/70 backdrop-blur-xl p-6 flex items-center justify-between border-t border-border/10 fixed bottom-0 left-0 right-0">
           <div className="text-left">
-            <h2 className="font-medium text-gray-600">
-              Select a task to get started
-            </h2>
+            <h2 className="font-medium text-gray-600">Transform your images</h2>
             <p className="text-sm text-muted-foreground mt-2">
-              Choose from the options below, or close to explore freely
+              Choose a popular tasks above or close to make custom edits
             </p>
           </div>
 
