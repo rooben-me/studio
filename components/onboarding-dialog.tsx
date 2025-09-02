@@ -37,9 +37,8 @@ export function OnboardingDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[95vw] md:max-w-[95vw] h-[90vh] p-0 flex flex-col overflow-hidden gap-0 [&>button]:hidden">
         {/* Header */}
-
         <div className="flex-1 overflow-y-auto">
-          <div className="p-6 pb-0">
+          <div className="p-6 pb-36">
             <TaskGrid
               onTaskSelect={handleTaskSelect}
               selectedTask={selectedTask}
@@ -51,8 +50,8 @@ export function OnboardingDialog({
           </div>
         </div>
 
-        <div className="bg-background/70 backdrop-blur-xl p-6 flex items-center justify-between border-t border-border/10 fixed bottom-0 left-0 right-0">
-          <div className="text-left">
+        <div className="bg-background/70 backdrop-blur-xl p-6 flex flex-col gap-4 md:flex-row items-center justify-between border-t border-border/10 fixed bottom-0 left-0 right-0">
+          <div className="text-center md:text-left">
             <h2 className="font-medium text-gray-600">Transform your images</h2>
             <p className="text-sm text-muted-foreground mt-2">
               Choose a popular tasks above or close to make custom edits
