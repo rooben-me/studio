@@ -8,6 +8,7 @@ import { TaskSelector } from "./task-selector";
 import { ResultComparison } from "./result-comparison";
 import { HistorySection } from "./history-section";
 import { ApiModeToggle } from "./api-mode-toggle";
+import { Button } from "./ui/button";
 import { Toaster } from "./ui/sonner";
 import type { TaskOption } from "@/types";
 import { cn } from "@/lib/utils";
@@ -215,12 +216,19 @@ export function StudioMain({ className }: StudioMainProps) {
 
           {/* Generation Status */}
           {generationState === "generating" && (
-            <div className="text-center">
+            <div className="text-center space-y-4">
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
                   This may take a few moments
                 </p>
               </div>
+              <Button
+                variant="outline"
+                onClick={abortGeneration}
+                className="text-destructive hover:text-destructive/80"
+              >
+                Cancel Generation
+              </Button>
             </div>
           )}
         </div>
