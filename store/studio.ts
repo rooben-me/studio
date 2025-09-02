@@ -90,7 +90,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
     restoreFromHistory: (item) => {
       set({
         imageDataUrl: item.imageUrl,
-        originalImageUrl: null,
+        originalImageUrl: item.originalImageUrl || item.imageUrl,
         prompt: item.prompt,
         task: item.task,
         generationState: "idle",
@@ -144,7 +144,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
           originalImageUrl: result.originalImageUrl || state.imageDataUrl,
         };
 
-        // Save to history with compression (async but don't wait)
+        // Save to history
         saveHistoryItem(historyItem)
           .then(() => {
             const updatedHistory = loadHistory();
@@ -157,6 +157,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
         // Update state with result
         set({
           imageDataUrl: result.imageUrl,
+          originalImageUrl: state.imageDataUrl,
           generationState: "success",
           abortController: null,
         });
