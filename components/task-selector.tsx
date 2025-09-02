@@ -63,19 +63,14 @@ export function TaskSelector({
         <Button
           variant="outline"
           className={cn(
-            "justify-between bg-background/70 backdrop-blur-xl border border-border/50 rounded-t-none",
-            selectedTask && "ring-2 ring-primary ring-offset-2",
+            "justify-between bg-background/70 backdrop-blur-xl border border-border/50 rounded-t-none text-muted-foreground",
+            selectedTask &&
+              "bg-indigo-100 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-800",
             className
           )}
         >
-          <span className="text-sm text-muted-foreground">
-            {selectedTaskLabel}
-          </span>
-          <svg
-            viewBox="0 0 24 24"
-            className="w-4 h-4 text-muted-foreground ml-2"
-            aria-hidden="true"
-          >
+          <span className="text-sm">{selectedTaskLabel}</span>
+          <svg viewBox="0 0 24 24" className="w-4 h-4 ml-2" aria-hidden="true">
             <path fill="currentColor" d="M7 10l5 5 5-5z" />
           </svg>
         </Button>
@@ -99,7 +94,7 @@ export function TaskSelector({
                 onClick={() => handleTaskSelect(task)}
                 className={cn(
                   "h-auto p-0 flex flex-col items-start text-left rounded-lg overflow-hidden",
-                  selectedTask === task.id && "ring-2 ring-primary bg-accent"
+                  selectedTask === task.id && "ring-2 ring-indigo-500 bg-accent"
                 )}
               >
                 <div className="relative w-full aspect-[3/4] bg-muted flex items-center justify-center">
@@ -120,8 +115,8 @@ export function TaskSelector({
                     </div>
                   )}
                   {selectedTask === task.id && (
-                    <div className="absolute top-1 right-1 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
-                      <Check className="w-3 h-3 text-primary-foreground" />
+                    <div className="absolute top-1 right-1 w-5 h-5 bg-indigo-700 rounded-full flex items-center justify-center">
+                      <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
                 </div>
