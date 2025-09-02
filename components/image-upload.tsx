@@ -98,6 +98,26 @@ export function ImageUpload({
     }
   }, [disabled]);
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (disabled) return;
+
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openFileDialog();
+      }
+    },
+    [disabled]
+  );
+
+  const handleClearKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+      clearImage();
+    }
+  }, []);
+
   const openFileDialog = () => {
     fileInputRef.current?.click();
   };
@@ -113,6 +133,7 @@ export function ImageUpload({
         className={cn(
           "relative w-full h-[400px] rounded-2xl border-2 border-dashed transition-all duration-200",
           "flex items-center justify-center overflow-hidden cursor-pointer",
+          "focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2",
           imageDataUrl
             ? "border-border bg-background"
             : isDragOver
@@ -124,6 +145,10 @@ export function ImageUpload({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        tabIndex={disabled ? -1 : 0}
+        role="button"
+        aria-label={imageDataUrl ? "Change uploaded image" : "Upload image"}
       >
         {imageDataUrl ? (
           <>
@@ -150,8 +175,10 @@ export function ImageUpload({
                   e.stopPropagation();
                   clearImage();
                 }}
+                onKeyDown={handleClearKeyDown}
                 disabled={disabled}
                 className="absolute top-2 right-2 h-8 w-8 rounded-full p-0"
+                aria-label="Remove image"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -235,10 +262,30 @@ export function ImageUploadCompact({
     fileInputRef.current?.click();
   };
 
-  const clearImage = (e: React.MouseEvent) => {
+  const clearImage = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation();
     onImageChange(null);
   };
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (disabled) return;
+
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openFileDialog();
+      }
+    },
+    [disabled]
+  );
+
+  const handleClearKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      e.stopPropagation();
+      clearImage(e);
+    }
+  }, []);
 
   return (
     <div className={className}>
@@ -251,6 +298,7 @@ export function ImageUploadCompact({
         <button
           type="button"
           onClick={openFileDialog}
+          onKeyDown={handleKeyDown}
           disabled={disabled}
           className={cn(
             "w-full h-full rounded-2xl border border-border",
@@ -258,6 +306,7 @@ export function ImageUploadCompact({
             "hover:bg-muted/80 focus-visible:outline-2 focus-visible:outline-ring",
             disabled && "cursor-not-allowed"
           )}
+          aria-label={imageDataUrl ? "Change uploaded image" : "Upload image"}
         >
           {imageDataUrl ? (
             <img
@@ -274,6 +323,7 @@ export function ImageUploadCompact({
           <button
             type="button"
             onClick={clearImage}
+            onKeyDown={handleClearKeyDown}
             disabled={disabled}
             className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/90 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             aria-label="Remove image"
