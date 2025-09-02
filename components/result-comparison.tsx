@@ -47,8 +47,8 @@ export function ResultComparison({
       </div>
 
       {/* Comparison Container */}
-      <div className="flex justify-center px-4">
-        <div className="p-6 border rounded-3xl bg-background/50 backdrop-blur-xl border-white/20 max-w-4xl w-full">
+      <div className="flex justify-center px-4 mt-4">
+        <div className="border rounded-3xl bg-background/50 backdrop-blur-xl border-white/20 max-w-4xl w-full">
           <Compare
             firstImage={originalImage}
             secondImage={generatedImage}
@@ -63,12 +63,12 @@ export function ResultComparison({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col-reverse sm:flex-row gap-8 justify-between items-center max-w-[500px] mx-auto">
+      <div className="flex flex-col-reverse sm:flex-row gap-8 justify-between items-center max-w-4xl mx-auto mt-6">
         <Button
           variant="ghost"
           size="lg"
           onClick={onStartOver}
-          className="text-muted-foreground hover:text-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105"
+          className="text-muted-foreground hover:text-foreground px-8 py-3 rounded-full font-medium"
         >
           <RotateCcw className="w-5 h-5 mr-2" />
           Create Another
@@ -79,7 +79,7 @@ export function ResultComparison({
             variant="outline"
             size="lg"
             onClick={onShare}
-            className="border-border/50 bg-background/80 backdrop-blur-sm hover:bg-background px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105"
+            className="border-border/50 bg-background/80 backdrop-blur-sm hover:bg-background px-8 py-3 rounded-full font-medium"
           >
             <Share2 className="w-5 h-5 mr-2" />
             Share
@@ -87,7 +87,7 @@ export function ResultComparison({
           <Button
             onClick={onDownload}
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-medium"
           >
             <Download className="w-5 h-5 mr-2" />
             Download
