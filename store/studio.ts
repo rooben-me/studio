@@ -90,7 +90,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
     restoreFromHistory: (item) => {
       set({
         imageDataUrl: item.imageUrl,
-        originalImageUrl: item.originalImageUrl || null,
+        originalImageUrl: null,
         prompt: item.prompt,
         task: item.task,
         generationState: "idle",
@@ -141,7 +141,7 @@ export const useStudioStore = create<StudioState & StudioActions>()(
 
         const historyItem = {
           ...result,
-          originalImageUrl: state.imageDataUrl,
+          originalImageUrl: result.originalImageUrl || state.imageDataUrl,
         };
         saveHistoryItem(historyItem);
         const updatedHistory = loadHistory();

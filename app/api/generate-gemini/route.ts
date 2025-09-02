@@ -1,9 +1,12 @@
 import type { NextRequest } from "next/server";
+import { downscaleToMaxDimension } from "@/lib/downscale";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { imageDataUrl, prompt, task } = body || {};
+
+    const originalImageUrl = imageDataUrl;
 
     if (!imageDataUrl || !prompt || !task) {
       return new Response(JSON.stringify({ message: "Missing fields" }), {
@@ -113,9 +116,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Downscale the generated image to reduce size
+    try {
+      generatedImageDataUrl = await downscaleToMaxDimension(
+        generatedImageDataUrl,
+        1024,
+        0.8
+      );
+    } catch (downscaleError) {
+      console.warn("Failed to downscale image:", downscaleError);
+    }
+
     const result = {
       id: crypto.randomUUID(),
       imageUrl: generatedImageDataUrl,
+      originalImageUrl: originalImageUrl,
       prompt: String(prompt),
       task: String(task),
       createdAt: new Date().toISOString(),

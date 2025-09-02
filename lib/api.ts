@@ -63,6 +63,8 @@ function isValidHistoryItem(data: any): data is HistoryItem {
     typeof data.imageUrl === "string" &&
     typeof data.prompt === "string" &&
     typeof data.task === "string" &&
-    typeof data.createdAt === "string"
+    typeof data.createdAt === "string" &&
+    (data.originalImageUrl === undefined ||
+      typeof data.originalImageUrl === "string")
   );
 }
