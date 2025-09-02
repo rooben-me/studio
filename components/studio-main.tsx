@@ -80,13 +80,23 @@ export function StudioMain({ className }: StudioMainProps) {
       try {
         const response = await fetch(imageDataUrl);
         const blob = await response.blob();
-        const file = new File([blob], "ai-studio-result.png", {
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString("en-CA");
+        const timeStr = now.toLocaleTimeString("en-GB", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        const filename = `ai-studio-result-${dateStr}-${timeStr}.png`;
+
+        const file = new File([blob], filename, {
           type: "image/png",
         });
 
         await navigator.share({
           title: "AI Studio Result",
-          text: `Check out this image I created with AI Studio: ${prompt}`,
+          text: "Check out this ✨image! Create your own at https://studio-ruban.vercel.app/",
           files: [file],
         });
       } catch (error) {
