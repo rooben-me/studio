@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStudioStore } from "@/store/studio";
 import { ImageUpload } from "./image-upload";
 import { PromptInput } from "./prompt-input";
@@ -8,9 +8,11 @@ import { TaskSelector } from "./task-selector";
 import { ResultComparison } from "./result-comparison";
 import { HistorySection } from "./history-section";
 import { ApiModeToggle } from "./api-mode-toggle";
+import { OnboardingDialog } from "./onboarding-dialog";
 import { Button } from "./ui/button";
 import { Toaster } from "./ui/sonner";
 import type { TaskOption } from "@/types";
+import { ONBOARDING_STORAGE_KEY } from "@/constants";
 import { cn } from "@/lib/utils";
 
 interface StudioMainProps {
@@ -18,6 +20,8 @@ interface StudioMainProps {
 }
 
 export function StudioMain({ className }: StudioMainProps) {
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
   const {
     imageDataUrl,
     originalImageUrl,
@@ -41,9 +45,15 @@ export function StudioMain({ className }: StudioMainProps) {
   const promptInputRef = useRef<HTMLInputElement>(null);
   const isGenerating = generationState === "generating";
 
-  // Load history on mount
+  // Load history and check onboarding status on mount
   useEffect(() => {
     loadHistoryFromStorage();
+
+    // Check if user has seen onboarding before
+    const hasSeenOnboarding = localStorage.getItem(ONBOARDING_STORAGE_KEY);
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+    }
   }, [loadHistoryFromStorage]);
 
   // Focus prompt input when image is uploaded
@@ -52,6 +62,16 @@ export function StudioMain({ className }: StudioMainProps) {
       promptInputRef.current.focus();
     }
   }, [imageDataUrl]);
+
+  const handleOnboardingTaskSelect = (task: TaskOption) => {
+    setSelectedTask(task);
+    handleOnboardingComplete();
+  };
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem(ONBOARDING_STORAGE_KEY, "true");
+    setShowOnboarding(false);
+  };
 
   const handleTaskSelect = (task: TaskOption | null) => {
     setSelectedTask(task);
@@ -254,6 +274,14 @@ export function StudioMain({ className }: StudioMainProps) {
 
       {/* Toast Container */}
       <Toaster />
+
+      {/* Onboarding Dialog */}
+      <OnboardingDialog
+        open={showOnboarding}
+        onOpenChange={setShowOnboarding}
+        onTaskSelect={handleOnboardingTaskSelect}
+        onComplete={handleOnboardingComplete}
+      />
     </div>
   );
 }
