@@ -47,14 +47,14 @@ export function ResultComparison({
       </div>
 
       {/* Comparison Container */}
-      <div className="flex justify-center">
-        <div className="p-6 border rounded-3xl bg-background/50 backdrop-blur-xl border-white/20">
+      <div className="flex justify-center px-4">
+        <div className="p-6 border rounded-3xl bg-background/50 backdrop-blur-xl border-white/20 max-w-4xl w-full">
           <Compare
             firstImage={originalImage}
             secondImage={generatedImage}
-            firstImageClassName="object-cover"
-            secondImageClassname="object-cover"
-            className="h-[400px] w-[400px] md:h-[500px] md:w-[500px]"
+            firstImageClassName="object-contain"
+            secondImageClassname="object-contain"
+            className="aspect-square max-h-[70vh] h-auto bg-gray-50 rounded-2xl border border-gray-100 mx-auto w-full md:min-w-[500px]"
             slideMode="hover"
             autoplay={true}
             autoplayDuration={3000}
