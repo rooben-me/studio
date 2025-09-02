@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { HistoryItem } from "@/types";
 import { cn } from "@/lib/utils";
+import { Badge } from "./ui/badge";
 
 interface HistorySectionProps {
   history: HistoryItem[];
@@ -156,18 +157,19 @@ function HistoryCard({
               className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
             />
           )}
-
-          {/* Task badge */}
-          <div className="absolute top-2 left-2">
-            <span className="px-2 py-1 bg-background/90 backdrop-blur-sm rounded-full text-xs font-medium capitalize">
-              {item.task.replace("-", " ")}
-            </span>
-          </div>
         </div>
 
-        <div className="p-3">
-          <p className="text-sm font-medium line-clamp-2 mb-1">{item.prompt}</p>
-          <p className="text-xs text-muted-foreground">{formattedDate}</p>
+        <div className="flex items-center justify-between p-3">
+          <div className="flex flex-col">
+            <p className="text-sm font-medium line-clamp-2 mb-1">
+              {item.prompt}
+            </p>
+            <p className="text-xs text-muted-foreground">{formattedDate}</p>
+          </div>
+
+          <Badge variant={"secondary"} className="uppercase text-gray-600">
+            {item.task.replace("-", " ")}
+          </Badge>
         </div>
         <div className="p-3 pt-1">
           <Button
