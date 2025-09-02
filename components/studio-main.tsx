@@ -133,7 +133,7 @@ export function StudioMain({ className }: StudioMainProps) {
           </div>
         </header>
 
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto p-4">
           <ResultComparison
             originalImage={originalImageUrl}
             generatedImage={imageDataUrl}
@@ -144,7 +144,7 @@ export function StudioMain({ className }: StudioMainProps) {
         </div>
 
         {/* History Section */}
-        <div className="mt-16">
+        <div className="mt-8">
           <HistorySection
             history={history}
             onRestore={handleRestore}
