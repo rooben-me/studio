@@ -6,7 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Studio - Ruban",
-  description: "Studio By Ruban",
+  description: "Upload images and describe how you want to edit them.",
 };
 
 export default function RootLayout({

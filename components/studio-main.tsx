@@ -134,13 +134,15 @@ export function StudioMain({ className }: StudioMainProps) {
         </header>
 
         <div className="container mx-auto p-4">
-          <ResultComparison
-            originalImage={originalImageUrl}
-            generatedImage={imageDataUrl}
-            onStartOver={handleStartOver}
-            onDownload={handleDownload}
-            onShare={handleShare}
-          />
+          <main role="main" aria-label="Image Comparison Results">
+            <ResultComparison
+              originalImage={originalImageUrl}
+              generatedImage={imageDataUrl}
+              onStartOver={handleStartOver}
+              onDownload={handleDownload}
+              onShare={handleShare}
+            />
+          </main>
         </div>
 
         {/* History Section */}
@@ -181,7 +183,7 @@ export function StudioMain({ className }: StudioMainProps) {
 
       <div className="container mx-auto px-4 py-8">
         {/* Main Studio Interface */}
-        <div className="max-w-2xl mx-auto space-y-8">
+        <main className="max-w-2xl mx-auto space-y-8" role="main" aria-label="AI Image Studio">
           {/* Image Upload */}
           <ImageUpload
             imageDataUrl={imageDataUrl}
@@ -216,7 +218,12 @@ export function StudioMain({ className }: StudioMainProps) {
 
           {/* Generation Status */}
           {generationState === "generating" && (
-            <div className="text-center space-y-4">
+            <div 
+              className="text-center space-y-4"
+              role="status"
+              aria-live="polite"
+              aria-label="Image generation in progress"
+            >
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
                   This may take a few moments
@@ -225,13 +232,14 @@ export function StudioMain({ className }: StudioMainProps) {
               <Button
                 variant="outline"
                 onClick={abortGeneration}
+                aria-label="Cancel the current image generation"
                 className="text-destructive hover:text-destructive/80"
               >
                 Cancel Generation
               </Button>
             </div>
           )}
-        </div>
+        </main>
 
         {/* History Section */}
         <div className="mt-16">

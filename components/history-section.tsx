@@ -26,16 +26,16 @@ export function HistorySection({
 
   if (history.length === 0) {
     return (
-      <section className={cn("w-full", className)}>
+      <section className={cn("w-full", className)} aria-label="Generation History">
         <div className="max-w-7xl mx-auto p-6 border bg-gray-50 border-gray-100 rounded-2xl">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <History className="h-5 w-5 text-muted-foreground" />
+              <History className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
               <h2 className="text-lg font-semibold">History</h2>
             </div>
           </div>
           <div className="text-center py-12">
-            <div className="rounded-full bg-muted p-4 w-16 h-16 mx-auto mb-4">
+            <div className="rounded-full bg-muted p-4 w-16 h-16 mx-auto mb-4" aria-hidden="true">
               <History className="h-8 w-8 text-muted-foreground" />
             </div>
             <p className="text-muted-foreground">No generations yet</p>
@@ -49,11 +49,11 @@ export function HistorySection({
   }
 
   return (
-    <section className={cn("w-full", className)}>
+    <section className={cn("w-full", className)} aria-label="Generation History">
       <div className="max-w-7xl mx-auto p-6 border bg-gray-50 border-gray-100 rounded-2xl">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <History className="h-5 w-5 text-muted-foreground" />
+            <History className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
             <h2 className="text-lg font-semibold">History</h2>
             <span className="text-sm text-muted-foreground">
               ({history.length} {history.length === 1 ? "item" : "items"})
@@ -64,15 +64,20 @@ export function HistorySection({
               variant="outline"
               size="sm"
               onClick={onClear}
+              aria-label={`Clear all ${history.length} history items`}
               className="text-muted-foreground hover:text-destructive"
             >
-              <Trash2 className="h-4 w-4 mr-2" />
+              <Trash2 className="h-4 w-4 mr-2" aria-hidden="true" />
               Clear All
             </Button>
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          role="grid"
+          aria-label="History items"
+        >
           {history.map((item) => (
             <HistoryCard
               key={item.id}
@@ -116,6 +121,8 @@ function HistoryCard({
       className="group relative overflow-hidden transition-all hover:shadow-md p-0"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      role="gridcell"
+      aria-label={`Generated image: ${item.prompt}, created ${formattedDate}`}
     >
       <CardContent className="p-0">
         {/* Image Comparison */}
@@ -126,11 +133,14 @@ function HistoryCard({
               <div className="w-1/2 relative overflow-hidden">
                 <img
                   src={item.originalImageUrl}
-                  alt="Original"
+                  alt={`Original image for: ${item.prompt}`}
                   className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
                 />
                 <div className="absolute bottom-1 left-1">
-                  <span className="px-1.5 py-0.5 bg-background/90 backdrop-blur-sm rounded text-xs font-medium">
+                  <span 
+                    className="px-1.5 py-0.5 bg-background/90 backdrop-blur-sm rounded text-xs font-medium"
+                    aria-label="Before generation"
+                  >
                     Before
                   </span>
                 </div>
@@ -140,11 +150,14 @@ function HistoryCard({
               <div className="w-1/2 relative overflow-hidden border-l border-border/20">
                 <img
                   src={item.imageUrl}
-                  alt="Generated"
+                  alt={`Generated result for: ${item.prompt}`}
                   className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
                 />
                 <div className="absolute bottom-1 right-1">
-                  <span className="px-1.5 py-0.5 bg-primary/90 backdrop-blur-sm rounded text-xs font-medium text-primary-foreground">
+                  <span 
+                    className="px-1.5 py-0.5 bg-primary/90 backdrop-blur-sm rounded text-xs font-medium text-primary-foreground"
+                    aria-label="After generation"
+                  >
                     After
                   </span>
                 </div>
@@ -153,7 +166,7 @@ function HistoryCard({
           ) : (
             <img
               src={item.imageUrl}
-              alt={`Generated: ${item.prompt}`}
+              alt={`Generated image for: ${item.prompt}`}
               className="w-full h-full object-cover transition-transform group-hover:scale-105 ease-in-out duration-300"
             />
           )}
@@ -176,9 +189,10 @@ function HistoryCard({
             onClick={onRestore}
             size="sm"
             variant="outline"
+            aria-label={`Restore this generation: ${item.prompt}`}
             className="w-full"
           >
-            <RotateCcw className="h-4 w-4 mr-2" />
+            <RotateCcw className="h-4 w-4 mr-2" aria-hidden="true" />
             Restore This Result
           </Button>
         </div>
