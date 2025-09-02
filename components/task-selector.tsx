@@ -62,6 +62,13 @@ export function TaskSelector({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
+          aria-label={
+            selectedTask
+              ? `Change task from ${selectedTaskLabel}`
+              : "Select a task"
+          }
+          aria-expanded={open}
+          aria-haspopup="dialog"
           className={cn(
             "justify-between bg-background/70 backdrop-blur-xl border border-border/50 rounded-t-none text-muted-foreground",
             selectedTask &&
@@ -75,23 +82,44 @@ export function TaskSelector({
           </svg>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[95vw] max-w-4xl p-0" align="center">
+      <PopoverContent
+        className="w-[95vw] max-w-4xl p-0"
+        align="center"
+        role="dialog"
+        aria-label="Task selection menu"
+      >
         <div className="p-4 w-full">
           <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search
+              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+              aria-hidden="true"
+            />
             <Input
               placeholder="Search tasks..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
+              aria-label="Search available tasks"
+              role="searchbox"
             />
           </div>
-          <div className="p-0.5 grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+          <div
+            className="p-0.5 grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto"
+            role="grid"
+            aria-label="Available tasks"
+          >
             {filteredTasks.map((task) => (
               <Button
                 key={task.id}
                 variant="ghost"
                 onClick={() => handleTaskSelect(task)}
+                aria-label={`${
+                  selectedTask === task.id ? "Deselect" : "Select"
+                } task: ${task.label}${
+                  task.description ? ". " + task.description : ""
+                }`}
+                aria-pressed={selectedTask === task.id}
+                role="gridcell"
                 className={cn(
                   "h-auto p-0 flex flex-col items-start text-left rounded-lg overflow-hidden",
                   selectedTask === task.id && "ring-2 ring-indigo-500 bg-accent"
@@ -101,21 +129,27 @@ export function TaskSelector({
                   {task.placeholderImage ? (
                     <img
                       src={task.placeholderImage}
-                      alt={task.label}
+                      alt={`Preview image for ${task.label} task`}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.currentTarget.style.display = "none";
                       }}
                     />
                   ) : (
-                    <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                    <div
+                      className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center"
+                      aria-hidden="true"
+                    >
                       <span className="text-xs font-medium text-primary">
                         {task.label.charAt(0)}
                       </span>
                     </div>
                   )}
                   {selectedTask === task.id && (
-                    <div className="absolute top-1 right-1 w-5 h-5 bg-indigo-700 rounded-full flex items-center justify-center">
+                    <div
+                      className="absolute top-1 right-1 w-5 h-5 bg-indigo-700 rounded-full flex items-center justify-center"
+                      aria-hidden="true"
+                    >
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
@@ -134,7 +168,11 @@ export function TaskSelector({
             ))}
           </div>
           {filteredTasks.length === 0 && (
-            <div className="text-center text-sm text-muted-foreground py-4">
+            <div
+              className="text-center text-sm text-muted-foreground py-4"
+              role="status"
+              aria-live="polite"
+            >
               No tasks found
             </div>
           )}
@@ -179,6 +217,10 @@ export function TaskGrid({
           key={task.id}
           variant="ghost"
           onClick={() => onTaskSelect(task)}
+          aria-label={`Select task: ${task.label}${
+            task.description ? ". " + task.description : ""
+          }`}
+          aria-pressed={selectedTask === task.id}
           className={cn(
             "h-auto p-0 flex flex-col items-start text-left rounded-xl overflow-hidden group hover:shadow-lg transition-all duration-200",
             selectedTask === task.id && "ring-2 ring-primary bg-accent"
@@ -189,14 +231,17 @@ export function TaskGrid({
               {task.placeholderImage ? (
                 <img
                   src={task.placeholderImage}
-                  alt={task.label}
+                  alt={`Preview image for ${task.label} task`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
                   }}
                 />
               ) : (
-                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                <div
+                  className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center"
+                  aria-hidden="true"
+                >
                   <span className="text-lg font-medium text-primary">
                     {task.label.charAt(0)}
                   </span>

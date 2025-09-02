@@ -124,18 +124,36 @@ export function ImageUpload({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={handleClick}
+        role="button"
+        tabIndex={disabled ? -1 : 0}
+        aria-label={imageDataUrl ? "Change uploaded image" : "Upload an image"}
+        aria-describedby="upload-description"
+        onKeyDown={(e) => {
+          if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
       >
         {imageDataUrl ? (
           <>
             <img
               src={imageDataUrl}
-              alt="Uploaded image"
+              alt="Uploaded image preview"
               className="max-w-full max-h-full object-contain"
             />
             {showLoadingState && (
-              <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+              <div 
+                className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-2xl"
+                role="status"
+                aria-live="polite"
+                aria-label="Generating image"
+              >
                 <div className="text-center space-y-3">
-                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                  <div 
+                    className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"
+                    aria-hidden="true"
+                  />
                   <div className="space-y-1">
                     <p className="text-sm font-medium">Generating...</p>
                   </div>
@@ -151,22 +169,23 @@ export function ImageUpload({
                   clearImage();
                 }}
                 disabled={disabled}
+                aria-label="Remove uploaded image"
                 className="absolute top-2 right-2 h-8 w-8 rounded-full p-0"
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4" aria-hidden="true" />
               </Button>
             )}
           </>
         ) : (
           <div className="flex flex-col items-center gap-2 text-center p-6">
-            <div className="rounded-full bg-muted p-4">
+            <div className="rounded-full bg-muted p-4" aria-hidden="true">
               <ImageIcon className="h-8 w-8 text-muted-foreground" />
             </div>
             <div>
               <p className="text-lg font-medium mb-2">
                 {isDragOver ? "Perfect, drop it here" : "Choose your image"}
               </p>
-              <p className="text-sm text-muted-foreground mb-3">
+              <p className="text-sm text-muted-foreground mb-3" id="upload-description">
                 {isDragOver
                   ? "Release to get started"
                   : "Drag & drop or click to browse"}
@@ -176,7 +195,7 @@ export function ImageUpload({
                   <span className="text-xs font-medium text-muted-foreground">
                     PNG or JPG
                   </span>
-                  <span className="w-1 h-1 bg-muted-foreground/40 rounded-full"></span>
+                  <span className="w-1 h-1 bg-muted-foreground/40 rounded-full" aria-hidden="true"></span>
                   <span className="text-xs font-medium text-muted-foreground">
                     Up to 10MB
                   </span>
@@ -195,6 +214,7 @@ export function ImageUpload({
         onChange={handleFileChange}
         className="hidden"
         disabled={disabled}
+        aria-label="Select image file"
       />
     </div>
   );
