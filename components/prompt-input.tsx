@@ -70,28 +70,35 @@ export const PromptInput = forwardRef<HTMLInputElement, PromptInputProps>(
           />
 
           {/* Generate/Abort Button */}
-          {isGenerating ? (
-            <Button
-              type="button"
-              size="sm"
-              onClick={onAbort}
-              disabled={disabled}
-              variant="destructive"
-              className="h-10 w-10 rounded-full p-0 shrink-0"
-            >
-              <Square className="h-4 w-4" />
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              size="sm"
-              onClick={onGenerate}
-              disabled={!canGenerate}
-              className="h-10 w-10 rounded-full p-0 shrink-0"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          )}
+          <div className="relative right-2">
+            {isGenerating ? (
+              <Button
+                type="button"
+                size="sm"
+                onClick={onAbort}
+                disabled={disabled}
+                variant="destructive"
+                className="h-10 w-10 rounded-full p-0 shrink-0"
+              >
+                <Square className="h-4 w-4" />
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                size="sm"
+                onClick={onGenerate}
+                disabled={!canGenerate}
+                className={cn(
+                  "h-10 w-10 rounded-full p-0 shrink-0",
+                  canGenerate
+                    ? "bg-indigo-500 hover:bg-indigo-600 text-white"
+                    : ""
+                )}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     );

@@ -56,7 +56,7 @@ export function ApiModeToggle({ className }: ApiModeToggleProps) {
         }
       }}
       className={cn(
-        "flex items-center cursor-pointer space-x-3 bg-background/70 backdrop-blur-xl border border-border/50 rounded-2xl p-1 pl-2 hover:bg-background/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors",
+        "flex items-center cursor-pointer space-x-3 bg-background/70 backdrop-blur-xl border border-border/50 rounded-lg p-1 pl-2 hover:bg-background/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors",
         className
       )}
       aria-label={`Switch API mode from ${getModeLabel()} to next mode`}
