@@ -95,8 +95,7 @@ export function StudioMain({ className }: StudioMainProps) {
         });
 
         await navigator.share({
-          title: "AI Studio Result",
-          text: "Check out this ✨image! Create your own at https://studio-ruban.vercel.app/",
+          text: "Check out this ✨image!",
           files: [file],
         });
       } catch (error) {
